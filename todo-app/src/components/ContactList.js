@@ -17,7 +17,7 @@ export default function ContactList(props) {
                 </tr>
             </thead>
             <tbody >
-                {props.data.map((item, index) => <ContactItem key={item.id} contact={item} no={index + 1} />)}
+                {props.data.map((item, index) => <ContactItem key={index} contact={item} no={index + 1} remove={() => props.remove(index)} />)}
             </tbody>
         </table>
     )
