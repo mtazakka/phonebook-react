@@ -11,36 +11,67 @@ export default class ContactBox extends Component {
     componentDidMount() {
         fetch('http://localhost:3000/phonebooks').then((response) => response.json())
             .then((data) => {
-                this.setState({ contacts: data })
+                this.setState({
+                    contacts: data.map(item => {
+                        item.sent = true
+                        return item
+                    })
+                })
             });
     }
 
 
     addContact = (name, phone) => {
-        this.setState((state) => ({ contacts: [...state.contacts, { id: Date.now(), name, phone }] }))
+        const id = Date.now();
+        this.setState((state) => ({ contacts: [...state.contacts, { id, name, phone }] }))
         fetch('http://localhost:3000/phonebooks', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name, phone })
+            body: JSON.stringify({ id, name, phone })
         }).then((response) => response.json())
             .then((data) => {
                 // this.setState({ contacts: data })
-            });
+            }).catch((e) => {
+                this.setState((state) => ({
+                    contacts: state.contacts.map((item) => {
+                        if (item.id == id) {
+                            item.sent = false
+                        }
+                        return item
+                    })
+                }))
+            })
     }
     removeContact = (id) => {
-        this.setState((state) => state.data.filter((item, index) => index !== id))
         fetch(`http://localhost:3000/phonebooks/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
             }
         }).then((response) => response.json()).then((data) => {
-            // this.setState({ contacts: data })
+            this.setState((state) => ({ contacts: state.contacts.filter((item) => item.id !== id) }))
         });
     }
-
+    resendContact = (id, name, phone) => {
+        fetch(`http://localhost:3000/phonebooks/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id, name, phone })
+        }).then((response) => response.json()).then((data) => {
+            this.setState((state) => ({
+                contacts: state.contacts.map((item) => {
+                    if (item.id == id) {
+                        item.sent = true
+                    }
+                    return item
+                })
+            }))
+        });
+    }
     render() {
         return (
             <div className='container'>
@@ -58,7 +89,7 @@ export default class ContactBox extends Component {
 
                     </div>
                     <hr />
-                    <ContactList data={this.state.contacts} remove={this.removeContact} />
+                    <ContactList data={this.state.contacts} remove={this.removeContact} resend={this.resendContact} />
                 </div>
             </div>
         )

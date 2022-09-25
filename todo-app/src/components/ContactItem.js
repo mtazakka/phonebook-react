@@ -9,7 +9,10 @@ export default function ContactItem(props) {
                 {props.contact.phone}
             </td>
             <td>
-                <button className="btn btn-danger" type="button" onClick={props.rmeove}>DELETE</button>
+                <button className={props.contact.sent ? "btn btn-danger" : "btn btn-warning"} type="button"
+                    onClick={props.contact.sent ? "props.remove" : "props.resend"}>
+                    {props.contact.sent ? "DELETE" : "RESEND"}
+                </button>
             </td>
         </tr>
     )

@@ -2,10 +2,12 @@ var express = require('express');
 var router = express.Router();
 var data = [
     {
+        id: 1,
         name: 'Tazakka',
         phone: '08122230170'
     },
     {
+        id: 2,
         name: 'Emir',
         phone: "081231231231"
     }
@@ -18,6 +20,7 @@ router.get('/', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
     data.push({
+        id: req.body.id,
         name: req.body.name,
         phone: req.body.phone
     })
