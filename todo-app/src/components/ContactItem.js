@@ -10,7 +10,7 @@ export default function ContactItem(props) {
             </td>
             <td>
                 <button className={props.contact.sent ? "btn btn-danger" : "btn btn-warning"} type="button"
-                    onClick={props.contact.sent ? "props.remove" : "props.resend"}>
+                    onClick={props.contact.sent ? props.remove : props.resend}>
                     {props.contact.sent ? "DELETE" : "RESEND"}
                 </button>
             </td>

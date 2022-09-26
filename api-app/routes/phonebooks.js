@@ -1,21 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var data = [
-    {
-        id: 1,
-        name: 'Tazakka',
-        phone: '08122230170'
-    },
-    {
-        id: 2,
-        name: 'Emir',
-        phone: "081231231231"
-    }
-]
+const fs = require('fs')
+var data = JSON.parse(fs.readFileSync('data.json', 'utf-8'))
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-    res.status(200).json(data)
+    res.json(data)
 });
 
 router.post('/', function (req, res, next) {
@@ -24,6 +14,7 @@ router.post('/', function (req, res, next) {
         name: req.body.name,
         phone: req.body.phone
     })
+    fs.writeFileSync('data.json', JSON.stringify(data, null, 3), 'utf-8')
     res.json(data[data.length - 1])
 });
 
@@ -32,11 +23,12 @@ router.put('/:id', function (req, res, next) {
         name: req.body.name,
         phone: req.body.phone
     }
+    fs.writeFileSync('data.json', JSON.stringify(data, null, 3), 'utf-8')
     res.json(data[req.params.id])
 });
 router.delete('/:id', function (req, res, next) {
-    const dataDeleted = data[req.params.id]
-    data.splice(req.params.id, 1)
-    res.json(dataDeleted)
+    data = data.filter(item => item.id != req.params.id)
+    fs.writeFileSync('data.json', JSON.stringify(data, null, 3), 'utf-8')
+    res.json(data)
 });
 module.exports = router;

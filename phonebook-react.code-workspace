@@ -2,12 +2,6 @@
 	"folders": [
 		{
 			"path": "."
-		},
-		{
-			"path": "../react-app"
-		},
-		{
-			"path": "../coretan"
 		}
 	],
 	"settings": {}

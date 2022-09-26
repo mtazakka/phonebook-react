@@ -23,7 +23,7 @@ export default class ContactBox extends Component {
 
     addContact = (name, phone) => {
         const id = Date.now();
-        this.setState((state) => ({ contacts: [...state.contacts, { id, name, phone }] }))
+        this.setState((state) => ({ contacts: [...state.contacts, { id, name, phone, sent: true }] }))
         fetch('http://localhost:3000/phonebooks', {
             method: 'POST',
             headers: {
@@ -55,7 +55,7 @@ export default class ContactBox extends Component {
         });
     }
     resendContact = (id, name, phone) => {
-        fetch(`http://localhost:3000/phonebooks/${id}`, {
+        fetch(`http://localhost:3000/phonebooks`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
