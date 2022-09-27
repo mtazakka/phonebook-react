@@ -1,6 +1,14 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 import ContactForm from './ContactForm'
 import ContactList from './ContactList'
+
+const request = axios.create({
+    baseURL: 'http://localhost:3001/',
+    // timeout: 1000,
+    headers: { 'X-Custom-Header': 'foobar' }
+});
+
 
 export default class ContactBox extends Component {
     constructor(props) {
@@ -8,70 +16,92 @@ export default class ContactBox extends Component {
         this.state = { contacts: [] };
     }
 
-    componentDidMount() {
-        fetch('http://localhost:3000/phonebooks').then((response) => response.json())
-            .then((data) => {
+    async componentDidMount() {
+        try {
+            const { data } = await request.get('contacts');
+            if (data.success) {
                 this.setState({
-                    contacts: data.map(item => {
+                    contacts: data.data.map(item => {
                         item.sent = true
                         return item
                     })
                 })
-            });
+            } else {
+                alert('gagal ambil data')
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
 
-
-    addContact = (name, phone) => {
-        const id = Date.now();
-        this.setState((state) => ({ contacts: [...state.contacts, { id, name, phone, sent: true }] }))
-        fetch('http://localhost:3000/phonebooks', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ id, name, phone })
-        }).then((response) => response.json())
-            .then((data) => {
-                // this.setState({ contacts: data })
-            }).catch((e) => {
+    addContact = async (name, phone) => {
+        const id = Date.now()
+        this.setState((state) =>
+        ({
+            contacts: [
+                ...state.contacts,
+                { id, name, phone, sent: true }
+            ]
+        }))
+        try {
+            const { data } = await request.post('contacts', { name, phone });
+            if (data.success) {
                 this.setState((state) => ({
-                    contacts: state.contacts.map((item) => {
-                        if (item.id == id) {
-                            item.sent = false
+                    contacts: state.contacts.map(item => {
+                        if (item.id === id) {
+                            return { ...data.data, sent: true }
                         }
                         return item
                     })
                 }))
-            })
-    }
-    removeContact = (id) => {
-        fetch(`http://localhost:3000/phonebooks/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
+            } else {
+                console.log(data.data)
             }
-        }).then((response) => response.json()).then((data) => {
-            this.setState((state) => ({ contacts: state.contacts.filter((item) => item.id !== id) }))
-        });
-    }
-    resendContact = (id, name, phone) => {
-        fetch(`http://localhost:3000/phonebooks`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ id, name, phone })
-        }).then((response) => response.json()).then((data) => {
+        } catch (error) {
+            console.error(error);
             this.setState((state) => ({
-                contacts: state.contacts.map((item) => {
-                    if (item.id == id) {
-                        item.sent = true
+                contacts: state.contacts.map(item => {
+                    if (item.id === id) {
+                        item.sent = false
                     }
                     return item
                 })
             }))
-        });
+        }
     }
+
+    removeContact = async (id) => {
+        try {
+            const { data } = await request.delete(`contacts/${id}`);
+            if (data.success) {
+                this.setState((state) => ({
+                    contacts: state.contacts.filter((item) => item.id !== id)
+                }))
+            } else {
+                alert('Contact not found')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    resendContact = async (id, name, phone) => {
+        try {
+            const { data } = await request.post('contacts', { name, phone });
+            if (data.success) {
+                this.setState((state) => ({
+                    contacts: state.contacts.map(item => {
+                        if (item.id === id) {
+                            return { ...data.data, sent: true }
+                        }
+                        return item
+                    })
+                }))
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     render() {
         return (
             <div className='container'>
@@ -86,7 +116,6 @@ export default class ContactBox extends Component {
                         <h6>Search Form</h6>
                     </div>
                     <div className='card-body' >
-
                     </div>
                     <hr />
                     <ContactList data={this.state.contacts} remove={this.removeContact} resend={this.resendContact} />

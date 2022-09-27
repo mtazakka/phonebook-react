@@ -14,6 +14,9 @@ export default function ContactList(props) {
                     <th>
                         Phone
                     </th>
+                    <th>
+                        Actions
+                    </th>
                 </tr>
             </thead>
             <tbody >
