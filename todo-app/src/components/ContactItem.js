@@ -21,6 +21,10 @@ export default class ContactItem extends Component {
         });
     }
 
+    handleUpdate = () => {
+        this.props.update(this.state.name, this.state.phone)
+        this.setState({ isEdit: false })
+    }
 
     render() {
         if (this.state.isEdit) {
@@ -35,7 +39,7 @@ export default class ContactItem extends Component {
                     </td>
                     <td>
                         <button className="btn btn-primary" type="button"
-                            onClick={this.props.contact.sent ? this.props.remove : this.props.resend}>
+                            onClick={this.handleUpdate}>
                             SAVE
                         </button>
                         <button className="btn btn-warning" type="button"

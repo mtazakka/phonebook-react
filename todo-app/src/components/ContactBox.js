@@ -70,6 +70,26 @@ export default class ContactBox extends Component {
         }
     }
 
+    updateContact = async (id, name, phone) => {
+        try {
+            const { data } = await request.put(`contacts/${id}`, { name, phone })
+            if (data.success) {
+                this.setState((state) => ({
+                    contacts: state.contacts.map(item => {
+                        if (item.id === id) {
+                            return { ...data.data, sent: true }
+                        }
+                        return item
+                    })
+                }))
+            } else {
+                console.log(data.data)
+            }
+        } catch (error) {
+
+        }
+    }
+
     removeContact = async (id) => {
         try {
             const { data } = await request.delete(`contacts/${id}`);
@@ -118,7 +138,11 @@ export default class ContactBox extends Component {
                     <div className='card-body' >
                     </div>
                     <hr />
-                    <ContactList data={this.state.contacts} remove={this.removeContact} resend={this.resendContact} />
+                    <ContactList
+                        data={this.state.contacts}
+                        update={this.updateContact}
+                        remove={this.removeContact}
+                        resend={this.resendContact} />
                 </div>
             </div>
         )

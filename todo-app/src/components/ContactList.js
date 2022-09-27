@@ -24,6 +24,7 @@ export default function ContactList(props) {
                     key={item.id}
                     contact={item}
                     no={index + 1}
+                    update={(name, phone) => props.update(item.id, name, phone)}
                     remove={() => props.remove(item.id)}
                     resend={() => props.resend(item.id, item.name, item.phone)} />)}
             </tbody>
