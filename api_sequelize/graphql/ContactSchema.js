@@ -53,7 +53,7 @@ const root = {
                     raw: true
                 })
             console.log('Edit Success')
-            return contact
+            return contact[1]
         } catch (err) {
             throw err
         }
