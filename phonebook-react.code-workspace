@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "../react-app/todo-app"
+		},
+		{
+			"path": "../react-app/todo-api"
 		}
 	],
 	"settings": {}

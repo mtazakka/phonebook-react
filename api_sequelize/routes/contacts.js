@@ -14,8 +14,8 @@ router.get('/', async function (req, res, next) {
 });
 router.post('/', async function (req, res, next) {
     try {
-        const { name, phone, /*UserId*/ } = req.body
-        const data = await models.Contact.create({ name, phone, /*UserId*/ })
+        const { name, phone } = req.body
+        const data = await models.Contact.create({ name, phone })
         res.json(new Response(data))
     } catch (e) {
         res.status(500).json(new Response(e, false))

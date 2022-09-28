@@ -136,6 +136,7 @@ export default class ContactBox extends Component {
                         <h6>Search Form</h6>
                     </div>
                     <div className='card-body' >
+
                     </div>
                     <hr />
                     <ContactList

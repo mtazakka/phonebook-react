@@ -31,21 +31,23 @@ export default class ContactForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div className="row mb-3">
-          <label htmlFor="name" className="col-sm-2 col-form-label">Name</label>
-          <div className="col-sm-10">
-            <input name='name' type="text" className="form-control" id="name" value={this.state.name} onChange={this.handleChange} required />
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <div className="row mb-3">
+            <label htmlFor="name" className="col-sm-2 col-form-label">Name</label>
+            <div className="col-sm-10">
+              <input name='name' type="text" className="form-control" id="name" value={this.state.name} onChange={this.handleChange} required />
+            </div>
           </div>
-        </div>
-        <div className="row mb-3">
-          <label htmlFor="phone" className="col-sm-2 col-form-label">Phonenumber</label>
-          <div className="col-sm-10">
-            <input name="phone" type="number" className="form-control" id="phone" value={this.state.phone} onChange={this.handleChange} required />
+          <div className="row mb-3">
+            <label htmlFor="phone" className="col-sm-2 col-form-label">Phonenumber</label>
+            <div className="col-sm-10">
+              <input name="phone" type="number" className="form-control" id="phone" value={this.state.phone} onChange={this.handleChange} required />
+            </div>
           </div>
-        </div>
-        <button type="submit" className="btn btn-primary">Add</button>
-      </form>
+          <button type="submit" className="btn btn-primary">Add</button>
+        </form>
+      </div>
     );
   }
 }
