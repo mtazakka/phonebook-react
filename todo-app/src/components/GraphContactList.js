@@ -4,13 +4,18 @@ import { GET_CONTACTS } from "../utils/queries";
 
 export default function ContactList(props) {
 
-    const { loading, error, data } = useQuery(GET_CONTACTS);
-
+    const { loading, error, data } = useQuery(GET_CONTACTS, {
+        variables: {
+            name: props.searchData.name === undefined ? '' : props.searchData.name,
+            phone: props.searchData.phone === undefined ? '' : props.searchData.phone,
+        }
+    });
+    console.log('ini data', data)
     if (loading) return <p>Loading...</p>;
     if (error) return `Error! ${error.message}`;
 
     return (
-        <table className="table table-striped">
+        <table className="table table-striped" idName="phonebook-table">
             <thead>
                 <tr>
                     <th>

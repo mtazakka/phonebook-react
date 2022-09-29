@@ -1,11 +1,14 @@
 import { gql } from '@apollo/client';
 
 export const GET_CONTACTS = gql`
-{
-    getContacts{
+query getContact($name: String, $phone: String){
+    getContacts(name: $name, phone:$phone ){
         id
         name
         phone
+        lat
+        lng
+        address
     }
 }
 `;
@@ -16,6 +19,9 @@ export const CREATE_CONTACT = gql`
         id
         name
         phone
+        lat
+        lng
+        address
         }
     }
 `;
@@ -27,6 +33,9 @@ export const UPDATE_CONTACT = gql`
         id
         name 
         phone
+        lat
+        lng
+        address
         }
     }
 `;

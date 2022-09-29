@@ -15,7 +15,7 @@ export default function ContactItem(props) {
     const [isEdit, setIsEdit] = useState(false)
     const [contact, setContact] = useState({
         name: props.contact.name,
-        phone: props.contact.phone
+        phone: props.contact.phone,
     })
 
     const handleInputChange = (event) => {
@@ -40,7 +40,7 @@ export default function ContactItem(props) {
         setIsEdit(false)
     };
 
-    // if (loading) return 'Submitting...';
+    if (loading) return 'Submitting...';
     if (error) return `Submission error! ${error.message}`;
 
     if (isEdit) {

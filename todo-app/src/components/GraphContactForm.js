@@ -8,11 +8,10 @@ export default function ContactForm() {
     refetchQueries: [{ query: GET_CONTACTS }],
   });
 
-  console.log("hasil refetch", data)
-
   const [contact, setContact] = useState({
     name: '',
     phone: '',
+    address: ''
   })
 
   const handleChange = (event) => {
@@ -32,6 +31,7 @@ export default function ContactForm() {
     setContact({
       name: '',
       phone: '',
+      address: ''
     })
   }
 
@@ -49,9 +49,15 @@ export default function ContactForm() {
         </div>
 
         <div className="row mb-3">
-          <label htmlFor="phone" className="col-sm-2 col-form-label">Phonenumber</label>
+          <label htmlFor="phone" className="col-sm-2 col-form-label">Phone</label>
           <div className="col-sm-10">
             <input name="phone" type="number" className="form-control" id="phone" value={contact.phone} onChange={handleChange} required />
+          </div>
+        </div>
+        <div className="row mb-3">
+          <label htmlFor="address" className="col-sm-2 col-form-label">Address</label>
+          <div className="col-sm-10">
+            <input name="address" type="text" className="form-control" id="address" value={contact.address} onChange={handleChange} required />
           </div>
         </div>
         <button type="submit" className="btn btn-primary">Add</button>

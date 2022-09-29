@@ -25,3 +25,8 @@ code {
 #searchform {
   text-align: left;
 }
+
+.map-container {
+  width: 100%;
+  height: 100%;
+}
