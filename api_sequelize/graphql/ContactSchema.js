@@ -1,35 +1,61 @@
 var { buildSchema } = require('graphql');
 var models = require('../models/index');
 var Contact = require('../models/contact');
+const { Sequelize } = require('../models/index');
 
 const schema = buildSchema(`
     input ContactInput {
         name: String
         phone: String
+        lat: Float
+        lng: Float
+        address: String
     }
 
     type Contact {
-        id: ID
-        name: String!
-        phone: String!
+        id: Int!
+        name: String
+        phone: String
+        lat: Float
+        lng: Float
+        address: String
+        limit: Int
+        offset: Int
     }
 
     type Query {
-        getContacts: [Contact]
+        getContacts(name: String, phone: String, offset: Int, limit: Int): [Contact]
     }
 
     type Mutation {
         createContact(input: ContactInput): Contact
-        updateContact(id: ID!, input: ContactInput): Contact
-        deleteContact(id: ID!): Contact
+        updateContact(id: Int!, input: ContactInput): Contact
+        deleteContact(id: Int!): Contact
     }
 `);
 
 
 const root = {
-    getContacts: () => {
+    getContacts: ({ name, phone, offset, limit }) => {
         try {
-            const contacts = models.Contact.findAll()
+            const contacts = models.Contact.findAll({
+                where: {
+                    [Sequelize.Op.and]: [
+                        {
+                            name: {
+                                [Sequelize.Op.iLike]: '%' + name + '%'
+                            }
+                        },
+                        {
+                            phone: {
+                                [Sequelize.Op.iLike]: '%' + phone + '%'
+                            }
+                        }
+                    ]
+                },
+                offset: offset,
+                limit: limit
+            })
             return contacts;
         } catch (err) {
             throw err
@@ -80,6 +106,9 @@ const root = {
         id
         name
         phone
+        lat
+        lng
+        address
     }
     }
 
@@ -87,36 +116,54 @@ const root = {
     createContact(input: {
         name: "Emir"
         phone: "081221312312"
+        lat
+        lng
+        address
     }) {
         id
         name
         phone
+        lat
+        lng
+        address
     }
     }
     mutation {
     updateContact(input: {
         name: "Emir"
         phone: "081221312312"
+        lat
+        lng
+        address
     }id:"55") {
         id
         name
         phone
+        lat
+        lng
+        address
     }
 
     mutation updateUser($id: ID!) {
-    updateContact(id: $id, input: {name: "Emir", phone: "081221312312"}) {
+    updateContact(id: $id, input: {
+        name: "Emir", 
+        phone: "081221312312"
+        lat
+        lng
+        address
+    }) {
         id
         name
         phone
+        lat
+        lng
+        address
     }
     }
 
 
     mutation {
     deleteContact(id:55) {
-        id
-        name
-        phone
     }
 }
 

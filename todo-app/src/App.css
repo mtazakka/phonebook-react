@@ -37,3 +37,25 @@
     transform: rotate(360deg);
   }
 }
+
+#container-list {
+  vertical-align: top;
+  height: 40px;
+}
+
+#container-item {
+  margin-top: -15px;
+  height: 40px;
+  vertical-align: middle;
+  border-bottom: 1px solid black
+}
+
+#container-button {
+  margin-top: -5px;
+}
+
+#button-add {
+  text-align: right;
+  margin-right: 0px;
+  margin-left: auto
+}

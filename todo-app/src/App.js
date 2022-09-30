@@ -2,7 +2,7 @@ import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import ContactBox from './components/ContactBox';
 import GraphContactBox from './components/GraphContactBox';
-// import Home from './components/MapBox';
+import GoogleMaps from './components/MapBox';
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<GraphContactBox />} />
         {/* <Route path="/sequelize" element={<ContactBox />} /> */}
-        {/* <Route path="/map" element={<Home />} /> */}
+        <Route path="/map" element={<GoogleMaps />} />
       </Routes>
     </BrowserRouter>
   );

@@ -5,8 +5,14 @@ const { Response } = require('../helpers/util')
 
 /* GET contacts listing. */
 router.get('/', async function (req, res, next) {
+    // const { name, phone } = req.body
     try {
-        const data = await models.Contact.findAll({})
+        const data = await models.Contact.findAll({
+            where: {
+                name: req.body.name,
+                phone: req.body.phone
+            }
+        })
         res.json(new Response(data))
     } catch (e) {
         res.status(500).json(new Response(e, false))
@@ -14,8 +20,8 @@ router.get('/', async function (req, res, next) {
 });
 router.post('/', async function (req, res, next) {
     try {
-        const { name, phone } = req.body
-        const data = await models.Contact.create({ name, phone })
+        const { name, phone, lat, lng, address } = req.body
+        const data = await models.Contact.create({ name, phone, lat, lng, address })
         res.json(new Response(data))
     } catch (e) {
         res.status(500).json(new Response(e, false))
@@ -26,7 +32,10 @@ router.put('/:id', async function (req, res, next) {
         const { name, phone } = req.body
         const data = await models.Contact.update({
             name,
-            phone
+            phone,
+            lat,
+            lng,
+            address
         }, {
             where: {
                 id: req.params.id

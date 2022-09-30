@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const GET_CONTACTS = gql`
-query getContact($name: String, $phone: String){
-    getContacts(name: $name, phone:$phone ){
+query getContact($name: String, $phone: String, $offset: Int, $limit: Int){
+    getContacts(name: $name, phone: $phone, offset: $offset, limit: $limit){
         id
         name
         phone
@@ -28,7 +28,7 @@ export const CREATE_CONTACT = gql`
 
 
 export const UPDATE_CONTACT = gql`
-    mutation updateContact($id:ID!, $contact: ContactInput!){
+    mutation updateContact($id:Int!, $contact: ContactInput!){
         updateContact(id:$id, input: $contact) {
         id
         name 
@@ -42,7 +42,7 @@ export const UPDATE_CONTACT = gql`
 
 
 export const DELETE_CONTACT = gql`
-    mutation deleteContact($id: ID!){
+    mutation deleteContact($id: Int!){
         deleteContact(id: $id) {
         __typename
         }

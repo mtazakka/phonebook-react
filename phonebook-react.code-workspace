@@ -4,10 +4,10 @@
 			"path": "."
 		},
 		{
-			"path": "../react-app/todo-app"
+			"path": "../project_pos"
 		},
 		{
-			"path": "../react-app/todo-api"
+			"path": "../chat-app"
 		}
 	],
 	"settings": {}
