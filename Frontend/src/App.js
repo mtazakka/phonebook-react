@@ -2,7 +2,7 @@ import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GraphContactBox from './components/GraphContactBox';
 import { graphqlClient } from './utils/api';
-import { ApolloProvider, InMemoryCache } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
 
 
 
