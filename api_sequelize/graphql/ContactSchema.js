@@ -36,9 +36,9 @@ const schema = buildSchema(`
 
 
 const root = {
-    getContacts: ({ name, phone, offset, limit }) => {
+    getContacts: async ({ name, phone, offset, limit }) => {
         try {
-            const contacts = models.Contact.findAll({
+            const contacts = await models.Contact.findAll({
                 where: {
                     [Sequelize.Op.and]: [
                         {
@@ -63,7 +63,7 @@ const root = {
     },
     createContact: ({ input }) => {
         try {
-            const contact = models.Contact.create(input)
+            const contact = models.Contact.create(input, { raw: true })
             return contact
         } catch (err) {
             throw err
@@ -85,13 +85,14 @@ const root = {
         }
     },
 
-    deleteContact: ({ id }) => {
+    deleteContact: async ({ id }) => {
         try {
-            const contact = models.Contact.destroy({
+            const contact = await models.Contact.destroy({
                 where: {
                     id
                 }
             })
+            console.log(contact)
             return contact
         } catch (err) {
             throw err
